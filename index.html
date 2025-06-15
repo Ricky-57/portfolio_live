@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="icon" type="image/x-icon" href="path-to-your-favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: white;
+            text-align: center;
+            min-height: 100vh;
+            transition: background 0.5s, color 0.5s;
+        }
+
+        body.light-mode {
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            color: #333;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: background 0.5s;
+        }
+
+        body.light-mode .navbar {
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        body.light-mode .navbar a {
+            color: #333;
+        }
+
+        .navbar a:hover {
+            color: #107cf8;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        .profile-picture {
+            margin-top: 120px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #58a6ff;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .profile-picture:hover {
+            box-shadow: 0 0 15px #58a6ff;
+            transform: scale(1.1);
+        }
+
+        section {
+            padding: 100px 20px;
+        }
+
+        h1 {
+            font-size: 3rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #58a6ff;
+        }
+
+        p {
+            color: #ddd;
+            font-size: 1.2rem;
+        }
+
+        body.light-mode p {
+            color: #555;
+        }
+
+        .project-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .project-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: left;
+            box-shadow: 0 4px 8px rgba(88, 166, 255, 0.2);
+        }
+
+        body.light-mode .project-card {
+            background-color: rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 16px rgba(88, 166, 255, 0.4);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #58a6ff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .back-to-top:hover {
+            background: #4a90e2;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .skills-list span {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+        }
+
+        body.light-mode .skills-list span {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        form input, form textarea {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #58a6ff;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.light-mode form input, body.light-mode form textarea {
+            background: rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+
+        form button {
+            background: #58a6ff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        form button:hover {
+            background: #4a90e2;
+        }
+
+        footer {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            transition: background 0.5s, color 0.5s;
+        }
+
+        body.light-mode footer {
+            background: rgba(255, 255, 255, 0.85);
+            color: #333;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f2027;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 1s, visibility 1s;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner">Loading...</div>
+    </div>
+
+    <div class="navbar">
+        <div><strong>My Portfolio</strong></div>
+        <div>
+            <a href="#hero">Home</a>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+            <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
+        </div>
+    </div>
+
+    <section id="hero">
+        <img src="passphoto_my2.jpg" alt="Ravuri Naga Pavan Kumar - Profile Picture" class="profile-picture">
+        <h1>Hi, I'm <span class="highlight">Ravuri Naga Pavan Kumar</span></h1>
+        <p>A passionate developer building cool projects.</p>
+    </section>
+
+    <section id="about">
+        <h2>About Me</h2>
+        <p>I'm a software developer with a strong passion for coding and problem-solving. I specialize in building web applications and love learning new technologies. My goal is to create impactful solutions that make a difference.</p>
+    </section>
+
+    <section id="skills">
+        <h2>Skills</h2>
+        <div class="skills-list">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>JavaScript</span>
+            <span>React</span>
+            <span>Node.js</span>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="project-list">
+            <div class="project-card">
+                <h3>Project 1</h3>
+                <p>A brief description of this incredible project.</p>
+                <p><strong>Tech Stack:</strong> HTML, CSS, JavaScript</p>
+                <a href="https://github.com/yourusername/project1" target="_blank">View on GitHub</a>
+            </div>
+            <div class="project-card">
+                <h3>Project 2</h3>
+                <p>A brief description of this incredible project.</p>
+                <p><strong>Tech Stack:</strong> React, Node.js</p>
+                <a href="https://github.com/yourusername/project2" target="_blank">View on GitHub</a>
+            </div>
+            <div class="project-card">
+                <h3>Project 3</h3>
+                <p>A brief description of this incredible project.</p>
+                <p><strong>Tech Stack:</strong> Python, Flask</p>
+                <a href="https://github.com/yourusername/project3" target="_blank">View on GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Contact</h2>
+        <form id="contact-form" action="https://formspree.io/f/mdkarjpd" method="POST">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+        <p>📧 Email: <a href="mailto:ravuripavan88@gmail.com">ravuripavan88@gmail.com</a></p>
+        <p>📞 Phone: 7032698288</p>
+    </section>
+
+    <footer>
+        <p>© 2023 Ravuri Naga Pavan Kumar. All rights reserved.</p>
+    </footer>
+
+    <div class="back-to-top" onclick="scrollToTop()" aria-label="Scroll to top">⬆ Top</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        // Loader Animation
+        window.addEventListener("load", () => {
+            const loader = document.querySelector(".loader");
+            loader.classList.add("hidden");
+        });
+
+        // Back to Top Button
+        window.addEventListener("scroll", () => {
+            const backToTop = document.querySelector(".back-to-top");
+            backToTop.style.display = window.scrollY > 300 ? "block" : "none";
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        // GSAP Animations
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.from(".navbar", { opacity: 0, y: -50, duration: 1 });
+            gsap.from(".profile-picture", { opacity: 0, scale: 0, duration: 1 });
+            gsap.from("h1", { opacity: 0, y: -20, duration: 1 });
+            gsap.from("p", { opacity: 0, y: 20, duration: 1, delay: 0.3 });
+            gsap.from(".project-card", { opacity: 0, x: -50, duration: 0.5, stagger: 0.2, delay: 0.5 });
+        });
+
+        // Dark/Light Mode Toggle
+        const themeToggle = document.getElementById("theme-toggle");
+        themeToggle.addEventListener("click", () => {
+            document.body.classList.toggle("light-mode");
+            themeToggle.textContent = document.body.classList.contains("light-mode") ? "🌞" : "🌙";
+        });
+    </script>
+</body>
+</html>
