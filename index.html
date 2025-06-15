@@ -116,7 +116,22 @@
             justify-content: center;
             gap: 20px;
         }
-        .project-card {
+        .intern-list{
+             display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .intern-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: left;
+            box-shadow: 0 4px 8px rgba(88, 166, 255, 0.2);
+        }
+        .project-card{
             background-color: rgba(255, 255, 255, 0.1);
             padding: 20px;
             border-radius: 10px;
@@ -130,6 +145,10 @@
             color: #333;
         }
         .project-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 16px rgba(88, 166, 255, 0.4);
+        }
+        .intern-card:hover {
             transform: translateY(-5px) scale(1.05);
             box-shadow: 0 8px 16px rgba(88, 166, 255, 0.4);
         }
@@ -217,38 +236,42 @@
 <section id="hero">
     <img src="passphoto_my2.jpg" alt="Ravuri Naga Pavan Kumar" class="profile-picture">
     <h1>Hi, I'm <span>Ravuri Naga Pavan Kumar</span></h1>
-    <p>A passionate developer building cool projects.</p>
+    <p>A passionate student.</p>
 </section>
 
 <section id="about">
     <h2>About Me</h2>
-    <p>I'm a software developer with a strong passion for coding and problem-solving. My goal is to create impactful solutions that make a difference.</p>
+    <p>I am currently pursuing my Bachelor's degree in Artificial Intelligence & Data Science (AI&DS) at Vasireddy Venkatadri Institute of Technology (VVIT).<br> My coursework is focused on building a strong foundation in core areas such as machine learning, data analytics, deep learning, natural language processing, and artificial intelligence applications. The program equips me with both theoretical knowledge and practical skills to solve real-world problems using data-driven approaches. Along with academics, I actively participate in various technical workshops, hackathons, and certification programs to continuously enhance my skills and stay updated with the latest industry trends.
+
+</p>
 </section>
 
 <section id="skills">
     <h2>Skills</h2>
     <div class="skills-list">
-        <span>HTML</span><span>CSS</span><span>JavaScript</span><span>React</span><span>Node.js</span>
+        <span>HTML</span><span>Java</span><span>python</span><span>Data Science </span>
     </div>
 </section>
+<section id="internships">
+    <h2>Internships</h2>
+    <div class="intern-list">
+        <div class="intern-card">
+            <h3>WEB DEVELOPER IN Php & MYSQL</h3>
+            <p><strong>Tech Stack:</strong> HTML, PHP, MUSQL</p>
+            <a href="apexplanet.jpg">certificate</a>
+        </div>
+       </div>
+       </section>
 
 <section id="projects">
     <h2>Projects</h2>
-    <div class="project-list">
-        <div class="project-card">
-            <h3>Project 1</h3>
-            <p>A brief description of this incredible project.</p>
-            <p><strong>Tech Stack:</strong> HTML, CSS, JavaScript</p>
-            <a href="#">View on GitHub</a>
-        </div>
-        <div class="project-card">
-            <h3>Project 2</h3>
-            <p>A brief description of this incredible project.</p>
-            <p><strong>Tech Stack:</strong> React, Node.js</p>
-            <a href="#">View on GitHub</a>
-        </div>
-    </div>
+    <p> yet to be developed</p>
+
 </section>
+<marquee behavior="scroll" direction="left">
+  NOTE: This portfolio is a work in progress. More projects and details will be added soon! 
+</marquee>
+
 
 <section id="contact">
     <h2>Contact</h2>
@@ -265,6 +288,7 @@
 
 <footer>
     <p>© 2023 Ravuri Naga Pavan Kumar. All rights reserved.</p>
+    <img src="details_footer.jpg">
 </footer>
 <div class="back-to-top" onclick="scrollToTop()">⬆ Top</div>
 <script>
