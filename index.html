@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Surekha Portfolio</title>
+  <title>pavan_kumar Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    /* General */
     *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
     body{line-height:1.6;background:#f9f9f9;color:#333;transition:0.3s;}
     h1,h2,h3{margin-bottom:10px;}
@@ -24,15 +23,60 @@
     .theme-toggle{cursor:pointer;font-size:20px;margin-left:15px;}
 
     /* Home */
-    .home{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-around;background:#eef3ff;padding:80px 20px;}
-    .home-content{max-width:500px;}
+    .home{display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-around;
+      background:#eef3ff;
+      padding:300px 300px;}
+    .home-content{max-width:750px;}
     .home h1 span{color:#007bff;}
-    .home-img img{width:200px;border-radius:50%;}
+    .home-img img {
+  width: 220px;               /* size of profile picture */
+  height: 220px;              /* make it a perfect square */
+  object-fit: cover;          /* ensures image fills nicely */
+  border-radius: 50%;         /* perfect circle */
+  border: 5px solid #d7dde4;  /* clean border */
+  box-shadow: 0 8px 20px rgba(10, 9, 9, 0.918); /* soft shadow */
+  transition: all 0.3s ease;  /* smooth hover animation */
+}
+
+/* Hover effect */
+.home-img img:hover {
+  transform: scale(1.05);              /* slight zoom */
+  box-shadow: 0 12px 25px rgba(5, 118, 238, 0.925); /* glow effect */
+  border-color: #bbe2ec;               /* border changes color */
+}
+
+/* Dark mode adjustment */
+body.dark .home-img img {
+  border-color: #00c6ff;
+  box-shadow: 0 8px 20px rgba(71, 143, 133, 0.25);
+}
+
+
+    .education-content{
+      padding:200px 200px;
+    }
+    .about-content{
+      padding:200px 200px;
+    }
 
     /* Skills */
     .skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:20px;}
     .skill-card{background:var(--card);padding:20px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
     .skill-card i{font-size:28px;color:#007bff;margin-bottom:10px;}
+.skill-card ul {
+  list-style-type: disc;   /* bullet points (use decimal for numbers) */
+  padding-left: 20px;      /* indent properly */
+  text-align: left;        /* align items neatly */
+  margin-top: 10px;
+}
+
+.skill-card li {
+  margin: 5px 0;
+  font-size: 15px;
+}
 
     /* Projects */
     .project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:20px;}
@@ -76,7 +120,7 @@
   <!-- ===== HEADER / NAVBAR ===== -->
   <header>
     <nav class="navbar">
-      <div class="logo">Surekha <span>Pamulapati</span></div>
+      <div class="logo"> NAGA PAVAN KUMAR <span>RAVURI</span></div>
       <ul class="nav-links" id="navLinks">
         <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
         <li><a href="#about"><i class="fas fa-user"></i> About</a></li>
@@ -96,27 +140,50 @@
   <!-- ===== HOME SECTION ===== -->
   <section id="home" class="home">
     <div class="home-content">
-      <h1>Hi, I'm <span>Surekha</span></h1>
-      <p>A passionate Full Stack Developer skilled in building scalable, user-friendly web apps.</p>
+      <h1>Hi, I'm <span>Naga Pavan Kumar</span> Ravuri</h1>
+      <p></p>
       <a href="#contact" class="btn"><i class="fas fa-paper-plane"></i> Get In Touch</a>
     </div>
     <div class="home-img">
-      <img src="profile.jpg" alt="Surekha">
+      <img src="passphoto_my2.jpg" alt="pavan_kumar">
     </div>
   </section>
 
   <!-- ===== ABOUT SECTION ===== -->
   <section id="about" class="about">
+    <div class="about-content">
     <h2><i class="fas fa-user-circle"></i> About Me</h2>
-    <p>I specialize in frontend and backend development, focusing on clean code, responsive design, and efficient systems. I enjoy solving real-world problems through technology.</p>
-  </section>
+    <p> I am Ravuri Naga Pavan Kumar,currently studying in <strong>B-tech specialized in Artificial Intelligence & Data Science.</strong> I am a motivated learner with a strong interest in 🤖 Artificial Intelligence, 📊 Data Science, and 💻 Software Development.
+
+<strong>🔎 I enjoy exploring:
+
+🤝 Machine Learning
+
+📈 Data Visualization
+
+🌐 Distributed Systems
+
+📡 Computer Networks</strong>
+
+🚀 I actively apply my knowledge through practical projects such as interactive dashboards and app development.
+
+💡 Beyond tech, I’m curious about innovation, digital products 💼, and passive income strategies 💵.
+
+🎯 With a problem-solving mindset and creativity, I aim to build impactful solutions in technology ⚙️, healthcare 🏥, and finance 💰.</p>
+</div> 
+</section>
 
   <!-- ===== EDUCATION SECTION ===== -->
   <section id="education" class="education">
+    <div class="education-content">
     <h2><i class="fas fa-school"></i> Education</h2>
     <div class="edu-card">
-      <h3>2019 - 2020</h3>
-      <p><strong>Saint Joseph's English Medium High School</strong><br>Completed 10th grade with strong performance.</p>
+       <h3>2021 - 2024</h3>
+      <p><strong>Rise Krishna Sai Polytechnic</strong><br>completed my Diploma in Computer Engineering by 82%.</p><br>
+    </div>
+      <h3>2024 - 2027</h3>
+      <p><strong>Vasireddy Venkatadri Institute of Technology</strong><br>B-tech(Artificial Intelligence & Data Science)</p>
+    </div>
     </div>
   </section>
 
@@ -124,10 +191,47 @@
   <section id="skills" class="skills">
     <h2><i class="fas fa-tools"></i> My Skills</h2>
     <div class="skill-grid">
-      <div class="skill-card"><i class="fab fa-html5"></i><h3>Frontend</h3><p>HTML5, CSS3, JavaScript, Responsive Design</p></div>
-      <div class="skill-card"><i class="fas fa-server"></i><h3>Backend</h3><p>Python, Java, PHP, Flask</p></div>
-      <div class="skill-card"><i class="fas fa-database"></i><h3>Databases</h3><p>MySQL, MongoDB</p></div>
-      <div class="skill-card"><i class="fas fa-cogs"></i><h3>Tools</h3><p>VS Code, GitHub, Eclipse, Twilio API</p></div>
+<div class="skill-card">
+  <i class="fab fa-html5"></i>
+  <h3>Frontend</h3>
+  <ul>
+    <li>HTML</li>
+    <li>CSS</li>
+    <li>JavaScript</li>
+  </ul>
+</div>
+
+  <div class="skill-card">
+  <i class="fas fa-server"></i>
+  <h3>Backend</h3>
+  <ul>
+    <li>Python</li>
+    <li>Java</li>
+    <li>PHP</li>
+    <li>Flask</li>
+  </ul>
+</div>
+
+<div class="skill-card">
+  <i class="fas fa-database"></i>
+  <h3>Databases</h3>
+  <ul>
+    <li>MySQL</li>
+    <li>MongoDB</li>
+  </ul>
+</div>
+
+<div class="skill-card">
+  <i class="fas fa-cogs"></i>
+  <h3>Tools</h3>
+  <ul>
+    <li>VS Code</li>
+    <li>GitHub</li>
+    <li>Eclipse</li>
+    <li>Twilio API</li>
+  </ul>
+</div>
+
     </div>
   </section>
 
@@ -136,14 +240,14 @@
     <h2><i class="fas fa-laptop-code"></i> My Projects</h2>
     <div class="project-grid">
       <div class="project-card">
-        <h3><i class="fas fa-project-diagram"></i> Project 1</h3>
-        <p>Flask-based skill development system with Python, SQL, HTML.</p>
-        <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a> | 
-        <a href="#"><i class="fab fa-github"></i> Source Code</a>
+        <h3><i class="fas fa-project-diagram"></i> MY_PORTFOLIO</h3>
+        <p>personal website designed to showcase your skills, projects, and experience</p>
+        <a href="https://portfolio-pavankumar57.netlify.app/"><i class="fas fa-external-link-alt"></i> Live Demo</a> | 
+        <a href="https://github.com/Ricky-57/portfolio_live"><i class="fab fa-github"></i> Source Code</a>
       </div>
       <div class="project-card">
         <h3><i class="fas fa-project-diagram"></i> Project 2</h3>
-        <p>Web app with CRUD operations using MongoDB & Flask.</p>
+        <p><strong>NOTE: </strong>UNDER DEVELOPMENT</p>
         <a href="#"><i class="fas fa-external-link-alt"></i> Live Demo</a> | 
         <a href="#"><i class="fab fa-github"></i> Source Code</a>
       </div>
@@ -154,33 +258,35 @@
   <section id="certifications" class="certifications">
     <h2><i class="fas fa-certificate"></i> My Certifications</h2>
     <div class="cert-grid">
-      <div class="cert-card"><i class="fas fa-award"></i> TCS ION Career Edge - Issued June 2025</div>
-      <div class="cert-card"><i class="fas fa-award"></i> Generative AI Internship - Issued June 2025</div>
-      <div class="cert-card"><i class="fas fa-award"></i> MongoDB - Issued Jan 2025</div>
-      <div class="cert-card"><i class="fas fa-award"></i> AWS Cloud Virtual Internship - Dec 2024</div>
+      <div class="cert-card"><i class="fas fa-award"></i> DATA VISUALIZATION:empowering business with effective insights(TATA)<br> <a href="WhatsApp Image 2025-08-23 at 20.08.29_b41ba667.jpg">certificate</a></div>
+      <div class="cert-card"><i class="fas fa-award"></i> DELOITTE Data Analytics job simulation <br> <a href="IMG-20250823-WA0024.jpg">certificate</a></div>
+      <div class="cert-card"><i class="fas fa-award"></i> Apex Planet Internship <a href="WhatsApp Image 2025-08-23 at 20.10.23_a38fce8b.jpg">certificate</a></div>
+      <div class="cert-card"><i class="fas fa-award"></i> Infosys Springboard AWS Certified developer <br><a href="WhatsApp Image 2025-08-23 at 20.08.29_d0f96899.jpg">certificate</a></div>
+      <div class="cert-card"><i class="fas fa-award"></i> Infosys Springboard Explore MAchine Learning using python <br><a href="IMG-20250823-WA0022.jpg">certificate</a></div>
+      <div class="cert-card"><i class="fas fa-award"></i> Infosys Springboard python for Data Science  <br><a href="IMG-20250823-WA0006.jpg">certificate</a></div>
     </div>
   </section>
 
   <!-- ===== CONTACT SECTION ===== -->
   <section id="contact" class="contact">
     <h2><i class="fas fa-envelope-open-text"></i> Get In Touch</h2>
-    <form class="contact-form">
-      <input type="text" placeholder="Your Name" required>
-      <input type="email" placeholder="Your Email" required>
-      <input type="text" placeholder="Subject">
-      <textarea placeholder="Your Message"></textarea>
+    <form class="contact-form" action="https://formspree.io/f/mdkarjpd" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="_replyto" placeholder="Your Email" required>
+      <input type="text" name="subject" placeholder="Subject">
+      <textarea name="message" placeholder="Your Message" required></textarea>
       <button type="submit"><i class="fas fa-paper-plane"></i> Send Message</button>
     </form>
     <div class="social-icons" style="margin-top:20px;">
-      <a href="#"><i class="fab fa-linkedin"></i></a>
-      <a href="#"><i class="fab fa-github"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="https://www.linkedin.com/in/naga-pavan-kumar-ravuri-bab330288/"><i class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/Ricky-57/"><i class="fab fa-github"></i></a>
+      <a href="https://www.instagram.com/name_is_ricky_/"><i class="fab fa-instagram"></i></a>
     </div>
   </section>
 
   <!-- ===== FOOTER ===== -->
   <footer>
-    <p>© 2025 Surekha Pamulapati. All rights reserved.</p>
+    <p>© 2025 Naga Pavan Kumar. All rights reserved.</p>
   </footer>
 
   <script>
@@ -194,11 +300,6 @@
       }else{
         themeToggle.classList.replace("fa-sun","fa-moon");
       }
-    });
-    // Demo contact form
-    document.querySelector(".contact-form").addEventListener("submit",e=>{
-      e.preventDefault();
-      alert("Message sent successfully!");
     });
   </script>
 </body>
