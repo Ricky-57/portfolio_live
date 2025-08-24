@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --primary-dark-color: #0056b3;
+            --text-color: #333;
+            --bg-color: #f0f2f5;
+            --card-bg-color: #fff;
+            --shadow-color: rgba(0,0,0,0.1);
+            --transition-speed: 0.3s;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* General Container Styling */
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--card-bg-color);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            position: relative;
+        }
+        
+        /* Loading Overlay */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border-radius: 10px;
+            transition: opacity var(--transition-speed);
+        }
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Login Page Styles */
+        #loginPage {
+            text-align: center;
+        }
+        
+        #loginPage h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-size: 16px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        #loginForm .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: var(--primary-color);
+            color: white;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background var(--transition-speed);
+            position: relative;
+        }
+        
+        #loginForm .btn:hover {
+            background: var(--primary-dark-color);
+        }
+        
+        .btn-text {
+            visibility: visible;
+        }
+        
+        #loginForm .btn.loading .btn-text {
+            visibility: hidden;
+        }
+        
+        #loginForm .btn.loading .loader {
+            display: block;
+        }
+
+        .message-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .message-box.success {
+            background-color: #d4edda;
+            color: #155724;
+            display: block;
+        }
+
+        .message-box.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+
+        /* Dashboard Page Styles */
+        #dashboardPage {
+            display: none;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .dashboard-header h1 {
+            color: var(--primary-color);
+        }
+
+        .dashboard-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-nav .btn {
+            background-color: var(--card-bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        
+        .dashboard-nav .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px var(--shadow-color);
+        }
+
+        .dashboard-nav .btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        #changePasswordBtn {
+            font-size: 14px;
+            padding: 8px 16px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color var(--transition-speed);
+        }
+
+        #changePasswordBtn:hover {
+            background-color: #5a6268;
+        }
+        
+        .content-section {
+            display: none;
+            max-width: 800px;
+            margin: auto;
+            background: var(--card-bg-color);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+            position: relative;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+        
+        /* Task form styling */
+        #addTaskForm .form-group {
+            margin-bottom: 15px;
+        }
+
+        #addTaskForm label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        #addTaskForm input,
+        #addTaskForm textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: #f8f9fa;
+            color: var(--text-color);
+            font-size: 16px;
+        }
+        
+        #addTaskForm input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        #addTaskForm button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background var(--transition-speed);
+        }
+
+        #addTaskForm button:hover {
+            background-color: var(--primary-dark-color);
+        }
+
+        /* Task list styling */
+        .task-list {
+            list-style-type: none;
+            padding: 0;
+            display: grid;
+            gap: 15px;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+        
+        .task-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px var(--shadow-color);
+        }
+
+        .task-content {
+            text-align: left;
+        }
+
+        .task-content h4 {
+            margin: 0 0 5px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .task-content small {
+            color: #7f8c8d;
+            display: block;
+            font-size: 13px;
+        }
+
+        .task-actions button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background var(--transition-speed);
+            font-size: 14px;
+        }
+
+        .task-actions button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainContainer">
+        <div id="loginPage">
+            <h2>Admin Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username"><i class="fas fa-user"></i> Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn">
+                    <span class="btn-text"><i class="fas fa-sign-in-alt"></i> Login</span>
+                    <span class="loader"></span>
+                </button>
+            </form>
+            <div id="messageBox" class="message-box"></div>
+        </div>
+        
+        <div id="dashboardPage">
+            <div class="dashboard-header">
+                <h1>Welcome, Admin!</h1>
+                <button id="changePasswordBtn">Change Password</button>
+            </div>
+            
+            <div id="changePasswordSection" class="content-section">
+                <h2>Change Password</h2>
+                <form id="changePasswordForm">
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" required>
+                    </div>
+                    <button type="submit">Save New Password</button>
+                </form>
+                <p id="passwordMessage" style="margin-top: 15px; text-align: center;"></p>
+            </div>
+            
+            <div class="dashboard-nav">
+                <button class="btn" data-target="addTask">Add Task</button>
+                <button class="btn" data-target="tasksToDo">Tasks to Complete</button>
+                <button class="btn" data-target="completedTasks">Completed Tasks</button>
+            </div>
+            
+            <div id="addTask" class="content-section">
+                <div class="loading-overlay">
+                    <div class="spinner"></div>
+                </div>
+                <h2>Add a New Task</h2>
+                <form id="addTaskForm">
+                    <div class="form-group">
+                        <label for="taskName">Task Name</label>
+                        <input type="text" id="taskName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="completionDate">Completion Date</label>
+                        <input type="date" id="completionDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="completionTime">Completion Time</label>
+                        <input type="time" id="completionTime" required>
+                    </div>
+                    <button type="submit">Create Task</button>
+                </form>
+                <p style="margin-top: 15px; text-align: center;" id="addMessage"></p>
+            </div>
+
+            <div id="tasksToDo" class="content-section">
+                <div class="loading-overlay">
+                    <div class="spinner"></div>
+                </div>
+                <h2>Tasks to Complete</h2>
+                <ul class="task-list" id="todoList"></ul>
+            </div>
+
+            <div id="completedTasks" class="content-section">
+                <div class="loading-overlay">
+                    <div class="spinner"></div>
+                </div>
+                <h2>Completed Tasks</h2>
+                <ul class="task-list" id="completedList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginPage = document.getElementById('loginPage');
+            const dashboardPage = document.getElementById('dashboardPage');
+            const loginForm = document.getElementById('loginForm');
+            const messageBox = document.getElementById('messageBox');
+            
+            const navButtons = document.querySelectorAll('.dashboard-nav .btn');
+            const sections = document.querySelectorAll('.content-section');
+            const addTaskForm = document.getElementById('addTaskForm');
+            const todoList = document.getElementById('todoList');
+            const completedList = document.getElementById('completedList');
+            const addMessage = document.getElementById('addMessage');
+            
+            const changePasswordBtn = document.getElementById('changePasswordBtn');
+            const changePasswordForm = document.getElementById('changePasswordForm');
+            const passwordMessage = document.getElementById('passwordMessage');
+            
+            const defaultPassword = 'password123';
+            const passwordKey = 'adminPassword';
+
+            // Set a default password in LocalStorage if one doesn't exist
+            if (!localStorage.getItem(passwordKey)) {
+                localStorage.setItem(passwordKey, defaultPassword);
+            }
+
+            // --- Initial State ---
+            loginPage.style.display = 'block';
+            dashboardPage.style.display = 'none';
+
+            // --- Login Logic ---
+            loginForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                const loginBtn = document.querySelector('#loginForm .btn');
+                
+                const storedPassword = localStorage.getItem(passwordKey);
+                
+                loginBtn.classList.add('loading');
+                messageBox.style.display = 'none';
+
+                setTimeout(() => {
+                    loginBtn.classList.remove('loading');
+
+                    if (username === 'admin' && password === storedPassword) {
+                        messageBox.textContent = 'Login successful!';
+                        messageBox.className = 'message-box success';
+                        
+                        setTimeout(() => {
+                            loginPage.style.display = 'none';
+                            dashboardPage.style.display = 'block';
+                            document.querySelector('.dashboard-nav .btn[data-target="addTask"]').click();
+                        }, 500);
+                        
+                    } else {
+                        messageBox.textContent = 'Invalid username or password.';
+                        messageBox.className = 'message-box error';
+                    }
+                }, 1500);
+            });
+            
+            // --- Change Password Logic ---
+            changePasswordBtn.addEventListener('click', () => {
+                // Show only the change password section
+                sections.forEach(section => section.classList.remove('active'));
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                document.getElementById('changePasswordSection').classList.add('active');
+            });
+            
+            changePasswordForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newPassword = document.getElementById('newPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                
+                passwordMessage.style.color = '#721c24';
+                
+                if (newPassword !== confirmPassword) {
+                    passwordMessage.textContent = 'Passwords do not match!';
+                } else if (newPassword.length < 6) {
+                    passwordMessage.textContent = 'Password must be at least 6 characters.';
+                } else {
+                    localStorage.setItem(passwordKey, newPassword);
+                    passwordMessage.textContent = 'Password changed successfully!';
+                    passwordMessage.style.color = '#155724';
+                    changePasswordForm.reset();
+                }
+            });
+
+            // --- Navigation Logic ---
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetId = button.getAttribute('data-target');
+                    const targetSection = document.getElementById(targetId);
+                    const loadingOverlay = targetSection.querySelector('.loading-overlay');
+
+                    // Hide change password section if it's visible
+                    document.getElementById('changePasswordSection').classList.remove('active');
+
+                    loadingOverlay.style.opacity = '1';
+                    loadingOverlay.style.display = 'flex';
+
+                    setTimeout(() => {
+                        loadingOverlay.style.display = 'none';
+                        navButtons.forEach(btn => btn.classList.remove('active'));
+                        sections.forEach(section => section.classList.remove('active'));
+
+                        button.classList.add('active');
+                        targetSection.classList.add('active');
+                    }, 500);
+                });
+            });
+
+            // --- Add Task Logic ---
+            addTaskForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const taskName = document.getElementById('taskName').value;
+                const completionDate = document.getElementById('completionDate').value;
+                const completionTime = document.getElementById('completionTime').value;
+                
+                const now = new Date();
+                const addedDate = now.toLocaleDateString();
+                const addedTime = now.toLocaleTimeString();
+
+                const taskId = 'task-' + Date.now();
+
+                const addTaskSection = document.getElementById('addTask');
+                const addTaskLoadingOverlay = addTaskSection.querySelector('.loading-overlay');
+                addTaskLoadingOverlay.style.display = 'flex';
+
+                setTimeout(() => {
+                    addTaskLoadingOverlay.style.display = 'none';
+
+                    const taskItem = document.createElement('li');
+                    taskItem.className = 'task-item';
+                    taskItem.id = taskId;
+                    taskItem.innerHTML = `
+                        <div class="task-content">
+                            <h4>${taskName}</h4>
+                            <small>Added: ${addedDate} at ${addedTime}</small>
+                            <small>Complete by: ${completionDate} at ${completionTime}</small>
+                        </div>
+                        <div class="task-actions">
+                            <button onclick="markAsCompleted('${taskId}')">Complete</button>
+                        </div>
+                    `;
+
+                    todoList.appendChild(taskItem);
+                    
+                    addMessage.textContent = 'Task created successfully!';
+                    addMessage.style.color = '#28a745';
+                    
+                    addTaskForm.reset();
+                }, 1000);
+            });
+
+            // --- Mark as Completed Logic ---
+            window.markAsCompleted = function(taskId) {
+                const taskItem = document.getElementById(taskId);
+                if (taskItem) {
+                    const tasksToDoSection = document.getElementById('tasksToDo');
+                    const tasksToDoLoadingOverlay = tasksToDoSection.querySelector('.loading-overlay');
+                    tasksToDoLoadingOverlay.style.display = 'flex';
+
+                    setTimeout(() => {
+                        tasksToDoLoadingOverlay.style.display = 'none';
+                        
+                        const completeButton = taskItem.querySelector('.task-actions');
+                        completeButton.remove();
+
+                        completedList.appendChild(taskItem);
+                    }, 500);
+                }
+            };
+        });
+    </script>
+</body>
+</html>
