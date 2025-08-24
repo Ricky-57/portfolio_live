@@ -329,9 +329,77 @@
                 justify-content: center;
             }
         }
+        /* Loading Animation & Styles */
+@media (max-width: 768px) {
+    /* Styles inside this block apply to screens 768px or smaller */
+    .dashboard-nav {
+        /* Changes the navigation buttons to stack vertically */
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .dashboard-nav .btn {
+        /* Makes buttons full-width on mobile */
+        width: 100%;
+    }
+}
+/* This is the overlay that covers the entire page */
+.page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--card-bg-color); /* White background */
+    z-index: 9999; /* Ensure it's on top of all other content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease;
+}
+
+/* This is the spinning circle inside the loader */
+.loader-spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid var(--border-color); /* Light grey border */
+    border-top: 6px solid var(--primary-color); /* Primary color for the spinning part */
+    border-radius: 50%;
+    animation: spin 1s linear infinite; /* Apply the spin animation */
+}
+
+/* Keyframes for the spinning animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* This class hides the loader and fades it out */
+.page-loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Optional: Fade in the main content once the loader is gone */
+.container {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.container.loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
     </style>
 </head>
 <body>
+  <div class="page-loader" id="pageLoader">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <div class="container" id="mainContainer">
+        </div>
 
     <header>
         <nav class="navbar" aria-label="Main navigation">
@@ -344,6 +412,12 @@
                 <li role="menuitem"><a href="#projects"><i class="fas fa-folder-open"></i> Projects</a></li>
                 <li role="menuitem"><a href="#certifications"><i class="fas fa-certificate"></i> Certifications</a></li>
                 <li role="menuitem"><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+                <ul class="nav-links" id="navLinks">
+    <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+    <li><a href="#about"><i class="fas fa-user"></i> About</a></li>
+    <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+    <li><a href="admin_content.html"><i class="fas fa-user-shield"></i> Admin</a></li>
+</ul>
             </ul>
             <div class="nav-actions">
                 <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">
@@ -513,6 +587,22 @@
                 currentYearSpan.textContent = new Date().getFullYear();
             }
         });
+        document.addEventListener('DOMContentLoaded', () => {
+    // ... (your existing code here) ...
+
+    // --- Loading Animation Logic ---
+    const pageLoader = document.getElementById('pageLoader');
+    const mainContainer = document.getElementById('mainContainer');
+
+    // Wait for the window to load
+    window.addEventListener('load', () => {
+        // Hide the loader
+        pageLoader.classList.add('hidden');
+
+        // Show the main content
+        mainContainer.classList.add('loaded');
+    });
+});
     </script>
 </body>
 </html>
