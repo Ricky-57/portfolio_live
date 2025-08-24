@@ -41,7 +41,116 @@
             box-shadow: 0 4px 15px var(--shadow-color);
             position: relative;
         }
-        
+        /* Login Page Styles */
+#loginPage {
+    text-align: center;
+}
+
+#loginPage h2 {
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    font-size: 24px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: 16px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* This is the key change for mobile responsiveness */
+#loginForm .btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: var(--primary-color);
+    color: white;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background var(--transition-speed);
+    position: relative;
+    /* Ensure the button and its children are visible and centered */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#loginForm .btn:hover {
+    background: var(--primary-dark-color);
+}
+
+.btn-text {
+    visibility: visible;
+}
+
+#loginForm .btn.loading .btn-text {
+    visibility: hidden;
+}
+
+.loader {
+    display: none; /* Keep this initially hidden */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+#loginForm .btn.loading .loader {
+    display: block;
+}
+
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.message-box {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    display: none;
+}
+
+.message-box.success {
+    background-color: #d4edda;
+    color: #155724;
+    display: block;
+}
+
+.message-box.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    display: block;
+}
         /* Loading Overlay */
         .loading-overlay {
             position: absolute;
@@ -606,4 +715,5 @@
         });
     </script>
 </body>
+
 </html>
