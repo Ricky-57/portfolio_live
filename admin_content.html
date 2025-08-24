@@ -536,184 +536,232 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const loginPage = document.getElementById('loginPage');
-            const dashboardPage = document.getElementById('dashboardPage');
-            const loginForm = document.getElementById('loginForm');
-            const messageBox = document.getElementById('messageBox');
-            
-            const navButtons = document.querySelectorAll('.dashboard-nav .btn');
-            const sections = document.querySelectorAll('.content-section');
-            const addTaskForm = document.getElementById('addTaskForm');
-            const todoList = document.getElementById('todoList');
-            const completedList = document.getElementById('completedList');
-            const addMessage = document.getElementById('addMessage');
-            
-            const changePasswordBtn = document.getElementById('changePasswordBtn');
-            const changePasswordForm = document.getElementById('changePasswordForm');
-            const passwordMessage = document.getElementById('passwordMessage');
-            
-            const defaultPassword = 'password123';
-            const passwordKey = 'adminPassword';
+   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const loginPage = document.getElementById('loginPage');
+        const dashboardPage = document.getElementById('dashboardPage');
+        const loginForm = document.getElementById('loginForm');
+        const messageBox = document.getElementById('messageBox');
+        
+        const navButtons = document.querySelectorAll('.dashboard-nav .btn');
+        const sections = document.querySelectorAll('.content-section');
+        const addTaskForm = document.getElementById('addTaskForm');
+        const todoList = document.getElementById('todoList');
+        const completedList = document.getElementById('completedList');
+        const addMessage = document.getElementById('addMessage');
+        
+        const changePasswordBtn = document.getElementById('changePasswordBtn');
+        const changePasswordForm = document.getElementById('changePasswordForm');
+        const passwordMessage = document.getElementById('passwordMessage');
+        
+        const defaultPassword = 'password123';
+        const passwordKey = 'adminPassword';
 
-            // Set a default password in LocalStorage if one doesn't exist
-            if (!localStorage.getItem(passwordKey)) {
-                localStorage.setItem(passwordKey, defaultPassword);
-            }
+        // Set a default password in LocalStorage if one doesn't exist
+        if (!localStorage.getItem(passwordKey)) {
+            localStorage.setItem(passwordKey, defaultPassword);
+        }
 
-            // --- Initial State ---
-            loginPage.style.display = 'block';
-            dashboardPage.style.display = 'none';
+        // --- NEW: Task Management with LocalStorage ---
+        const TASKS_STORAGE_KEY = 'adminTasksData';
+        let tasks = JSON.parse(localStorage.getItem(TASKS_STORAGE_KEY)) || [];
 
-            // --- Login Logic ---
-            loginForm.addEventListener('submit', function(event) {
-                event.preventDefault();
+        function saveTasks() {
+            localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(tasks));
+        }
 
-                const username = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
-                const loginBtn = document.querySelector('#loginForm .btn');
-                
-                const storedPassword = localStorage.getItem(passwordKey);
-                
-                loginBtn.classList.add('loading');
-                messageBox.style.display = 'none';
+        function renderTasks() {
+            // Clear current lists
+            todoList.innerHTML = '';
+            completedList.innerHTML = '';
 
-                setTimeout(() => {
-                    loginBtn.classList.remove('loading');
+            // Separate tasks into 'to-do' and 'completed' lists
+            const todoTasks = tasks.filter(task => !task.completed);
+            const completedTasks = tasks.filter(task => task.completed);
 
-                    if (username === 'admin' && password === storedPassword) {
-                        messageBox.textContent = 'Login successful!';
-                        messageBox.className = 'message-box success';
-                        
-                        setTimeout(() => {
-                            loginPage.style.display = 'none';
-                            dashboardPage.style.display = 'block';
-                            document.querySelector('.dashboard-nav .btn[data-target="addTask"]').click();
-                        }, 500);
-                        
-                    } else {
-                        messageBox.textContent = 'Invalid username or password.';
-                        messageBox.className = 'message-box error';
-                    }
-                }, 1500);
+            // Render 'to-do' tasks
+            todoTasks.forEach(task => {
+                const taskItem = document.createElement('li');
+                taskItem.className = 'task-item';
+                taskItem.innerHTML = `
+                    <div class="task-content">
+                        <h4>${task.name}</h4>
+                        <small>Added: ${task.addedDate} at ${task.addedTime}</small>
+                        <small>Complete by: ${task.completionDate} at ${task.completionTime}</small>
+                    </div>
+                    <div class="task-actions">
+                        <button onclick="markAsCompleted('${task.id}')">Complete</button>
+                    </div>
+                `;
+                todoList.appendChild(taskItem);
             });
-            
-            // --- Change Password Logic ---
-            changePasswordBtn.addEventListener('click', () => {
-                // Show only the change password section
-                sections.forEach(section => section.classList.remove('active'));
-                navButtons.forEach(btn => btn.classList.remove('active'));
-                document.getElementById('changePasswordSection').classList.add('active');
+
+            // Render 'completed' tasks
+            completedTasks.forEach(task => {
+                const taskItem = document.createElement('li');
+                taskItem.className = 'task-item';
+                taskItem.innerHTML = `
+                    <div class="task-content">
+                        <h4>${task.name}</h4>
+                        <small>Added: ${task.addedDate} at ${task.addedTime}</small>
+                        <small>Completed on: ${task.completedDate} at ${task.completedTime}</small>
+                    </div>
+                `;
+                completedList.appendChild(taskItem);
             });
-            
-            changePasswordForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const newPassword = document.getElementById('newPassword').value;
-                const confirmPassword = document.getElementById('confirmPassword').value;
-                
-                passwordMessage.style.color = '#721c24';
-                
-                if (newPassword !== confirmPassword) {
-                    passwordMessage.textContent = 'Passwords do not match!';
-                } else if (newPassword.length < 6) {
-                    passwordMessage.textContent = 'Password must be at least 6 characters.';
+        }
+
+        // --- Login Logic (Unchanged) ---
+        // The original login code is fine and already uses localStorage for password persistence.
+        
+        loginPage.style.display = 'block';
+        dashboardPage.style.display = 'none';
+
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const loginBtn = document.querySelector('#loginForm .btn');
+            const storedPassword = localStorage.getItem(passwordKey);
+            loginBtn.classList.add('loading');
+            messageBox.style.display = 'none';
+
+            setTimeout(() => {
+                loginBtn.classList.remove('loading');
+                if (username === 'admin' && password === storedPassword) {
+                    messageBox.textContent = 'Login successful!';
+                    messageBox.className = 'message-box success';
+                    setTimeout(() => {
+                        loginPage.style.display = 'none';
+                        dashboardPage.style.display = 'block';
+                        document.querySelector('.dashboard-nav .btn[data-target="addTask"]').click();
+                        // ✅ Load tasks on successful login
+                        renderTasks(); 
+                    }, 500);
                 } else {
-                    localStorage.setItem(passwordKey, newPassword);
-                    passwordMessage.textContent = 'Password changed successfully!';
-                    passwordMessage.style.color = '#155724';
-                    changePasswordForm.reset();
+                    messageBox.textContent = 'Invalid username or password.';
+                    messageBox.className = 'message-box error';
                 }
-            });
-
-            // --- Navigation Logic ---
-            navButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const targetId = button.getAttribute('data-target');
-                    const targetSection = document.getElementById(targetId);
-                    const loadingOverlay = targetSection.querySelector('.loading-overlay');
-
-                    // Hide change password section if it's visible
-                    document.getElementById('changePasswordSection').classList.remove('active');
-
-                    loadingOverlay.style.opacity = '1';
-                    loadingOverlay.style.display = 'flex';
-
-                    setTimeout(() => {
-                        loadingOverlay.style.display = 'none';
-                        navButtons.forEach(btn => btn.classList.remove('active'));
-                        sections.forEach(section => section.classList.remove('active'));
-
-                        button.classList.add('active');
-                        targetSection.classList.add('active');
-                    }, 500);
-                });
-            });
-
-            // --- Add Task Logic ---
-            addTaskForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                const taskName = document.getElementById('taskName').value;
-                const completionDate = document.getElementById('completionDate').value;
-                const completionTime = document.getElementById('completionTime').value;
-                
-                const now = new Date();
-                const addedDate = now.toLocaleDateString();
-                const addedTime = now.toLocaleTimeString();
-
-                const taskId = 'task-' + Date.now();
-
-                const addTaskSection = document.getElementById('addTask');
-                const addTaskLoadingOverlay = addTaskSection.querySelector('.loading-overlay');
-                addTaskLoadingOverlay.style.display = 'flex';
-
-                setTimeout(() => {
-                    addTaskLoadingOverlay.style.display = 'none';
-
-                    const taskItem = document.createElement('li');
-                    taskItem.className = 'task-item';
-                    taskItem.id = taskId;
-                    taskItem.innerHTML = `
-                        <div class="task-content">
-                            <h4>${taskName}</h4>
-                            <small>Added: ${addedDate} at ${addedTime}</small>
-                            <small>Complete by: ${completionDate} at ${completionTime}</small>
-                        </div>
-                        <div class="task-actions">
-                            <button onclick="markAsCompleted('${taskId}')">Complete</button>
-                        </div>
-                    `;
-
-                    todoList.appendChild(taskItem);
-                    
-                    addMessage.textContent = 'Task created successfully!';
-                    addMessage.style.color = '#28a745';
-                    
-                    addTaskForm.reset();
-                }, 1000);
-            });
-
-            // --- Mark as Completed Logic ---
-            window.markAsCompleted = function(taskId) {
-                const taskItem = document.getElementById(taskId);
-                if (taskItem) {
-                    const tasksToDoSection = document.getElementById('tasksToDo');
-                    const tasksToDoLoadingOverlay = tasksToDoSection.querySelector('.loading-overlay');
-                    tasksToDoLoadingOverlay.style.display = 'flex';
-
-                    setTimeout(() => {
-                        tasksToDoLoadingOverlay.style.display = 'none';
-                        
-                        const completeButton = taskItem.querySelector('.task-actions');
-                        completeButton.remove();
-
-                        completedList.appendChild(taskItem);
-                    }, 500);
-                }
-            };
+            }, 1500);
         });
-    </script>
+        
+        // --- Change Password Logic (Unchanged) ---
+        changePasswordBtn.addEventListener('click', () => {
+            sections.forEach(section => section.classList.remove('active'));
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            document.getElementById('changePasswordSection').classList.add('active');
+        });
+        
+        changePasswordForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            passwordMessage.style.color = '#721c24';
+            
+            if (newPassword !== confirmPassword) {
+                passwordMessage.textContent = 'Passwords do not match!';
+            } else if (newPassword.length < 6) {
+                passwordMessage.textContent = 'Password must be at least 6 characters.';
+            } else {
+                localStorage.setItem(passwordKey, newPassword);
+                passwordMessage.textContent = 'Password changed successfully!';
+                passwordMessage.style.color = '#155724';
+                changePasswordForm.reset();
+            }
+        });
+
+        // --- Navigation Logic (Updated to call renderTasks) ---
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.getAttribute('data-target');
+                const targetSection = document.getElementById(targetId);
+                const loadingOverlay = targetSection.querySelector('.loading-overlay');
+                
+                document.getElementById('changePasswordSection').classList.remove('active');
+                
+                loadingOverlay.style.opacity = '1';
+                loadingOverlay.style.display = 'flex';
+                
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+
+                    button.classList.add('active');
+                    targetSection.classList.add('active');
+                    
+                    // ✅ Re-render tasks every time a task list tab is clicked
+                    renderTasks();
+                }, 500);
+            });
+        });
+
+        // --- Add Task Logic (Updated to use task array and localStorage) ---
+        addTaskForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const taskName = document.getElementById('taskName').value;
+            const completionDate = document.getElementById('completionDate').value;
+            const completionTime = document.getElementById('completionTime').value;
+            
+            const now = new Date();
+            
+            const newTask = {
+                id: Date.now().toString(), // Unique ID for each task
+                name: taskName,
+                completionDate: completionDate,
+                completionTime: completionTime,
+                addedDate: now.toLocaleDateString(),
+                addedTime: now.toLocaleTimeString(),
+                completed: false // A boolean flag to track status
+            };
+            
+            const addTaskSection = document.getElementById('addTask');
+            const addTaskLoadingOverlay = addTaskSection.querySelector('.loading-overlay');
+            addTaskLoadingOverlay.style.display = 'flex';
+
+            setTimeout(() => {
+                addTaskLoadingOverlay.style.display = 'none';
+                
+                tasks.push(newTask); // ✅ Add the new task object to the array
+                saveTasks();         // ✅ Save the updated array to localStorage
+                
+                addMessage.textContent = 'Task created successfully!';
+                addMessage.style.color = '#28a745';
+                
+                addTaskForm.reset();
+                
+                // You can add a prompt here to switch to the "Tasks to Complete" view
+                // navButtons[1].click(); // This would simulate a click on the "Tasks to Complete" button
+            }, 1000);
+        });
+
+        // --- Mark as Completed Logic (Updated to use task array and localStorage) ---
+        window.markAsCompleted = function(taskId) {
+            const tasksToDoSection = document.getElementById('tasksToDo');
+            const tasksToDoLoadingOverlay = tasksToDoSection.querySelector('.loading-overlay');
+            tasksToDoLoadingOverlay.style.display = 'flex';
+
+            setTimeout(() => {
+                tasksToDoLoadingOverlay.style.display = 'none';
+
+                // Find the task by its ID and update its `completed` status
+                const taskIndex = tasks.findIndex(task => task.id === taskId);
+                if (taskIndex !== -1) {
+                    tasks[taskIndex].completed = true;
+                    // Add a timestamp for when it was completed
+                    const now = new Date();
+                    tasks[taskIndex].completedDate = now.toLocaleDateString();
+                    tasks[taskIndex].completedTime = now.toLocaleTimeString();
+
+                    saveTasks();   // ✅ Save the updated array
+                    renderTasks(); // ✅ Re-render the lists from the new data
+                }
+            }, 500);
+        };
+    });
+</script>
 </body>
 
 </html>
+
